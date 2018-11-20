@@ -1,0 +1,96 @@
+.mainContainer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(209, 214, 221, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.innerContainer {
+  display: flex;
+}
+
+.content {
+  width: 700px;
+  display: flex;
+  flex-direction: column;
+  background-color: #00add7;
+  color: white;
+}
+
+.header {
+  width: 100%;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 0 0 auto;
+  font-size: 24px;
+}
+
+.headerText {
+  display: flex;
+  justify-content: center;
+  width: 190px;
+}
+
+.weekContainer {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex: 1 0 auto;
+  background-color: white;
+  border-left: 1px solid rgba(39, 46, 57, 0.5);
+  border-right: 1px solid rgba(39, 46, 57, 0.5);
+  border-bottom: 1px solid rgba(39, 46, 57, 0.5);
+}
+
+/* Chevron from https://codepen.io/jonneal/pen/kptBs */
+.chevron::before {
+  border-style: solid;
+  border-width: 0.25em 0.25em 0 0;
+  content: "";
+  display: inline-block;
+  height: 0.45em;
+  left: 0.15em;
+  position: relative;
+  transform: rotate(-45deg);
+  width: 0.45em;
+  color: white;
+}
+
+.chevronRight:before {
+  left: -0.15em;
+  transform: rotate(45deg);
+}
+
+.chevronLeft:before {
+  left: 0.15em;
+  transform: rotate(-135deg);
+}
+
+.left {
+  cursor: pointer;
+  font-size: 16px;
+  margin-right: 15px;
+}
+
+.left:hover {
+  transform: scale(1.1);
+}
+
+.right {
+  cursor: pointer;
+  font-size: 16px;
+  margin-left: 15px;
+}
+
+.right:hover {
+  transform: scale(1.1);
+}
