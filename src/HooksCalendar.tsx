@@ -27,7 +27,7 @@ const CalendarReducer = (state: CalendarData, action: CalendarAction) => {
 };
 
 type CalendarContext = {
-  dispatch: (action: CalendarAction) => {};
+  dispatch: (action: CalendarAction) => void;
   date: moment.Moment;
 };
 
@@ -36,7 +36,9 @@ const CalendarContextDefault = {
   date: moment()
 };
 
-const CalendarContext = React.createContext(CalendarContextDefault);
+const CalendarContext = React.createContext<CalendarContext>(
+  CalendarContextDefault
+);
 
 function HooksCalendar(): JSX.Element {
   const [calendarState, dispatch] = React.useReducer(CalendarReducer, {
