@@ -10,13 +10,17 @@ function Calendar(): JSX.Element {
 
   const advanceMonth = (): void => {
     calendarContext.dispatch(
-      new CalendarActions.IncrementMonth(calendarContext.calendarState.date)
+      new CalendarActions.IncrementMonth(
+        calendarContext.calendarState.currentMonth
+      )
     );
   };
 
   const decrementMonth = (): void => {
     calendarContext.dispatch(
-      new CalendarActions.DecrementMonth(calendarContext.calendarState.date)
+      new CalendarActions.DecrementMonth(
+        calendarContext.calendarState.currentMonth
+      )
     );
   };
 

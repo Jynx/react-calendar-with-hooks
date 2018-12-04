@@ -6,14 +6,14 @@ import { CalendarAction, CalendarActionTypes } from "./CalendarActions";
 import CalendarContext from "./Context/CalendarContext";
 
 export type CalendarState = {
-  currentMonth: number;
-  date: moment.Moment;
+  currentMonth: moment.Moment;
+  currentDate: moment.Moment;
   days: Array<HTMLElement>;
 };
 
 export const defaultCalendarState = {
-  currentMonth: 0,
-  date: moment(),
+  currentMonth: moment(),
+  currentDate: moment(),
   days: []
 };
 
@@ -22,12 +22,12 @@ const CalendarReducer = (state: CalendarState, action: CalendarAction) => {
     case CalendarActionTypes.INCREMENT_MONTH:
       return {
         ...state,
-        date: state.date.add(1, "months")
+        currentMonth: state.currentMonth.add(1, "months")
       };
     case CalendarActionTypes.DECREMENT_MONTH:
       return {
         ...state,
-        date: state.date.subtract(1, "months")
+        currentMonth: state.currentMonth.subtract(1, "months")
       };
     default:
       return state;
