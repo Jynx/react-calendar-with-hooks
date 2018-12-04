@@ -31,12 +31,12 @@ function Calendar(): JSX.Element {
           className={classnames(
             CalendarCSS.chevron,
             CalendarCSS.chevronLeft,
-            CalendarCSS.left
+            CalendarCSS.lef
           )}
           onClick={decrementMonth}
         />
         <div className={CalendarCSS.headerText}>
-          {calendarContext.calendarState.date.startOf("month").format("MMMM")}
+          {calendarContext.calendarState.currentMonth.format("MMMM")}
         </div>
         <div
           className={classnames(

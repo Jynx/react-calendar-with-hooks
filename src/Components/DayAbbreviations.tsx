@@ -7,7 +7,7 @@ function DayAbbreviations(): JSX.Element {
 
   const generateDayAbbreviations = (): Array<string> => {
     let daysOfWeek = [];
-    let startDate = calendarContext.calendarState.currentMonth.startOf("month");
+    let startDate = calendarContext.calendarState.currentDate.startOf("month");
     for (let i = 1; i < 7; i++) {
       daysOfWeek.push(
         startDate
