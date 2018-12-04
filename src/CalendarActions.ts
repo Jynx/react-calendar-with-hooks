@@ -5,18 +5,14 @@ export enum CalendarActionTypes {
   DECREMENT_MONTH = "DECREMENT_MONTH"
 }
 
-type IncrementMonthAction = {
-  type: CalendarActionTypes.INCREMENT_MONTH;
-  payload: {
-    date: moment.Moment;
-  };
-};
+export class IncrementMonth {
+  readonly type = CalendarActionTypes.INCREMENT_MONTH;
+  constructor(public payload: moment.Moment) {}
+}
 
-type DecrementMonthAction = {
-  type: CalendarActionTypes.DECREMENT_MONTH;
-  payload: {
-    date: moment.Moment;
-  };
-};
+export class DecrementMonth {
+  readonly type = CalendarActionTypes.DECREMENT_MONTH;
+  constructor(public payload: moment.Moment) {}
+}
 
-export type CalendarAction = IncrementMonthAction | DecrementMonthAction;
+export type CalendarAction = IncrementMonth | DecrementMonth;

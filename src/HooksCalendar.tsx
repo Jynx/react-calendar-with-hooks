@@ -1,15 +1,23 @@
 import React from "react";
 import moment, { Moment } from "moment";
-import classnames from "classnames";
-import Calendar from "./HooksCalendar.module.css";
+import CalendarCSS from "./HooksCalendar.module.css";
+import Calendar from "./Components/Calendar";
 import { CalendarAction, CalendarActionTypes } from "./CalendarActions";
+import CalendarContext from "./Context/CalendarContext";
 
-type CalendarData = {
+export type CalendarState = {
+  currentMonth: number;
   date: moment.Moment;
   days: Array<HTMLElement>;
 };
 
-const CalendarReducer = (state: CalendarData, action: CalendarAction) => {
+export const defaultCalendarState = {
+  currentMonth: 0,
+  date: moment(),
+  days: []
+};
+
+const CalendarReducer = (state: CalendarState, action: CalendarAction) => {
   switch (action.type) {
     case CalendarActionTypes.INCREMENT_MONTH:
       return {
@@ -26,89 +34,21 @@ const CalendarReducer = (state: CalendarData, action: CalendarAction) => {
   }
 };
 
-type CalendarContext = {
-  dispatch: (action: CalendarAction) => void;
-  date: moment.Moment;
-};
-
-const CalendarContextDefault = {
-  dispatch: (action: CalendarAction) => {},
-  date: moment()
-};
-
-const CalendarContext = React.createContext<CalendarContext>(
-  CalendarContextDefault
-);
-
 function HooksCalendar(): JSX.Element {
-  const [calendarState, dispatch] = React.useReducer(CalendarReducer, {
-    date: moment(),
-    days: []
-  });
+  const [calendarState, dispatch] = React.useReducer(
+    CalendarReducer,
+    defaultCalendarState
+  );
 
   return (
     <CalendarContext.Provider
-      value={{ dispatch: dispatch, date: calendarState.date }}
+      value={{ dispatch: dispatch, calendarState: calendarState }}
     >
-      <div className={Calendar.mainContainer}>
-        <div className={Calendar.innerContainer} />
-        <CalendarView />
+      <div className={CalendarCSS.mainContainer}>
+        <div className={CalendarCSS.innerContainer} />
+        <Calendar />
       </div>
     </CalendarContext.Provider>
-  );
-}
-
-function CalendarView(): JSX.Element {
-  const calendarContext = React.useContext(CalendarContext);
-
-  const advanceMonth = (): void => {
-    calendarContext.dispatch({
-      type: CalendarActionTypes.INCREMENT_MONTH,
-      payload: {
-        date: calendarContext.date
-      }
-    });
-  };
-
-  const decrementMonth = (): void => {
-    calendarContext.dispatch({
-      type: CalendarActionTypes.DECREMENT_MONTH,
-      payload: {
-        date: calendarContext.date
-      }
-    });
-  };
-
-  return (
-    <div className={Calendar.content}>
-      <div className={Calendar.header}>
-        <div
-          className={classnames(
-            Calendar.chevron,
-            Calendar.chevronLeft,
-            Calendar.left
-          )}
-          onClick={advanceMonth}
-        />
-        <div className={Calendar.headerText}>
-          {calendarContext.date.startOf("month").format("MMMM")}
-        </div>
-        <div
-          className={classnames(
-            Calendar.chevron,
-            Calendar.chevronRight,
-            Calendar.right
-          )}
-          onClick={decrementMonth}
-        />
-      </div>
-      {/* <DayAbbreviations /> */}
-      {/* <div className={styles.weekContainer}>
-        {props.weekIds
-          ? props.weekIds.map(id => <Week key={id} weekId={id} />)
-          : null}
-      </div> */}
-    </div>
   );
 }
 

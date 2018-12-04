@@ -94,3 +94,17 @@
 .right:hover {
   transform: scale(1.1);
 }
+
+.abbrContent {
+  display: flex;
+  height: 60px;
+  flex: 0 0 auto;
+}
+
+.abbr {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  flex: 1 0 100px;
+}
