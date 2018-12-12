@@ -4,8 +4,8 @@ import { CalendarState } from "../HooksCalendar";
 import { defaultCalendarState } from "../HooksCalendar";
 
 export type CalendarContextProps = {
-  dispatch: (action: CalendarAction) => void;
   calendarState: CalendarState;
+  dispatch: (action: CalendarAction) => void;
 };
 
 const calendarContextDefault = {
