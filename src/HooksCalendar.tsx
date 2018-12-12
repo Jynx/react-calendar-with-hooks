@@ -1,12 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import moment, { Moment } from "moment";
 import CalendarCSS from "./HooksCalendar.module.css";
 import Calendar from "./Components/Calendar";
-import { CalendarAction, CalendarActionTypes } from "./CalendarActions";
+import {
+  CalendarAction,
+  CalendarActionTypes
+} from "./ActionCreators/CalendarActions";
 import CalendarContext from "./Context/CalendarContext";
 import Plus from "../src/resources/icons/Plus";
 import AppointmentEditorView from "../src/Components/AppointmentEditor";
-import * as CalendarActions from "../src/CalendarActions";
+import * as CalendarActions from "./ActionCreators/CalendarActions";
+import { AppointmentActionTypes } from "./ActionCreators/AppointmentActions";
 
 export type CalendarState = {
   currentMonth: moment.Moment;
@@ -14,6 +18,15 @@ export type CalendarState = {
   selectedDay: moment.Moment | null;
   days: Array<HTMLElement>;
   demoSideEffect: string;
+  isAddAppointmentModalVisible: boolean;
+  appointments: Array<Appointment>;
+  currentAppointment: Appointment;
+};
+
+export type Appointment = {
+  appointmentTitle: string;
+  appointmentStart: string;
+  appointmentEnd: string;
 };
 
 export const defaultCalendarState = {
@@ -21,7 +34,14 @@ export const defaultCalendarState = {
   currentDate: moment(),
   selectedDay: null,
   days: [],
-  demoSideEffect: "notDone!"
+  demoSideEffect: "notDone!",
+  isAddAppointmentModalVisible: false,
+  appointments: [],
+  currentAppointment: {
+    appointmentTitle: "",
+    appointmentStart: "",
+    appointmentEnd: ""
+  }
 };
 
 function useCalendarReducer(
@@ -50,8 +70,11 @@ const runSideEffects = (
 ) => {
   switch (action.type) {
     case CalendarActionTypes.INCREMENT_MONTH:
-      debugger;
-      dispatch(new CalendarActions.ReturnDemoSideEffect("DID IT"));
+      setTimeout(
+        dispatch,
+        5000,
+        new CalendarActions.ReturnDemoSideEffect("DID IT")
+      );
       break;
   }
 };
@@ -79,6 +102,45 @@ const CalendarReducer = (state: CalendarState, action: CalendarAction) => {
         ...state,
         demoSideEffect: action.payload
       };
+    case CalendarActionTypes.HIDE_ADD_APPOINTMENT_MODAL:
+    case CalendarActionTypes.SHOW_ADD_APPOINTMENT_MODAL:
+    case AppointmentActionTypes.UPDATE_TITLE:
+      return AppointmentReducer(state, action);
+    default:
+      return state;
+  }
+};
+
+const AppointmentReducer = (state: CalendarState, action: CalendarAction) => {
+  switch (action.type) {
+    case CalendarActionTypes.SHOW_ADD_APPOINTMENT_MODAL:
+      return { ...state, isAddAppointmentModalVisible: true };
+    case CalendarActionTypes.HIDE_ADD_APPOINTMENT_MODAL:
+      return { ...state, isAddAppointmentModalVisible: false };
+    case AppointmentActionTypes.UPDATE_TITLE:
+      return {
+        ...state,
+        currentAppointment: {
+          ...state.currentAppointment,
+          appointmentTitle: action.payload
+        }
+      };
+    case AppointmentActionTypes.UPDATE_START:
+      return {
+        ...state,
+        currentAppointment: {
+          ...state.currentAppointment,
+          appointmentStart: action.payload
+        }
+      };
+    case AppointmentActionTypes.UPDATE_END:
+      return {
+        ...state,
+        currentAppointment: {
+          ...state.currentAppointment,
+          appointmentEnd: action.payload
+        }
+      };
     default:
       return state;
   }
@@ -93,20 +155,30 @@ function HooksCalendar() {
   return (
     <CalendarContext.Provider value={{ dispatch, calendarState }}>
       <div className={CalendarCSS.mainContainer}>
-        <div className={CalendarCSS.innerContainer} />
-        {calendarState.demoSideEffect}
-        <Calendar />
-        {/* <AppointmentEditorView /> */}
-        <AddAppointmentView />
+        <div className={CalendarCSS.innerContainer}>
+          {calendarState.demoSideEffect}
+          <Calendar />
+        </div>
+        <AddAppointmentButton />
+        <AppointmentEditorView />
       </div>
     </CalendarContext.Provider>
   );
 }
 
-const AddAppointmentView = () => (
-  <div className={CalendarCSS.plus}>
-    <Plus />
-  </div>
-);
+function AddAppointmentButton() {
+  const calendarContext = React.useContext(CalendarContext);
+  return (
+    <div
+      className={CalendarCSS.plus}
+      role='button'
+      onClick={React.useCallback(() => {
+        calendarContext.dispatch(new CalendarActions.ShowAddAppointmentModal());
+      }, [])}
+    >
+      <Plus />
+    </div>
+  );
+}
 
 export default HooksCalendar;

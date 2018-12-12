@@ -2,7 +2,7 @@ import React from "react";
 import CalendarCSS from "../HooksCalendar.module.css";
 import classnames from "classnames";
 import CalendarContext from "../Context/CalendarContext";
-import * as CalendarActions from "../CalendarActions";
+import * as CalendarActions from "../ActionCreators/CalendarActions";
 import moment from "moment";
 
 type DayProps = {

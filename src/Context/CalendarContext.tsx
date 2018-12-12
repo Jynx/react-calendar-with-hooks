@@ -1,5 +1,5 @@
 import React from "react";
-import { CalendarAction } from "../CalendarActions";
+import { CalendarAction } from "../ActionCreators/CalendarActions";
 import { CalendarState } from "../HooksCalendar";
 import { defaultCalendarState } from "../HooksCalendar";
 

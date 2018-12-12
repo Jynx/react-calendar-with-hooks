@@ -4,7 +4,7 @@ import classnames from "classnames";
 import DayAbbreviations from "./DayAbbreviations";
 import Day from "./Day";
 import CalendarContext from "../Context/CalendarContext";
-import * as CalendarActions from "../CalendarActions";
+import * as CalendarActions from "../ActionCreators/CalendarActions";
 import moment from "moment";
 
 function Calendar(): JSX.Element {
