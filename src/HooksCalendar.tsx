@@ -34,7 +34,7 @@ export const defaultCalendarState = {
   currentDate: moment(),
   selectedDay: null,
   days: [],
-  demoSideEffect: "notDone!",
+  demoSideEffect: "Side effect not done!",
   isAddAppointmentModalVisible: false,
   appointments: [],
   currentAppointment: {
@@ -73,7 +73,7 @@ const runSideEffects = (
       setTimeout(
         dispatch,
         5000,
-        new CalendarActions.ReturnDemoSideEffect("DID IT")
+        new CalendarActions.ReturnDemoSideEffect("Side Effect done")
       );
       break;
   }
@@ -105,13 +105,16 @@ const CalendarReducer = (state: CalendarState, action: CalendarAction) => {
     case CalendarActionTypes.HIDE_ADD_APPOINTMENT_MODAL:
     case CalendarActionTypes.SHOW_ADD_APPOINTMENT_MODAL:
     case AppointmentActionTypes.UPDATE_TITLE:
-      return AppointmentReducer(state, action);
+      return {
+        ...state,
+        currentAppointment: AppointmentReducer(state.currentAppointment, action)
+      };
     default:
       return state;
   }
 };
 
-const AppointmentReducer = (state: CalendarState, action: CalendarAction) => {
+const AppointmentReducer = (state: Appointment, action: CalendarAction) => {
   switch (action.type) {
     case CalendarActionTypes.SHOW_ADD_APPOINTMENT_MODAL:
       return { ...state, isAddAppointmentModalVisible: true };
@@ -120,26 +123,17 @@ const AppointmentReducer = (state: CalendarState, action: CalendarAction) => {
     case AppointmentActionTypes.UPDATE_TITLE:
       return {
         ...state,
-        currentAppointment: {
-          ...state.currentAppointment,
-          appointmentTitle: action.payload
-        }
+        appointmentTitle: action.payload
       };
     case AppointmentActionTypes.UPDATE_START:
       return {
         ...state,
-        currentAppointment: {
-          ...state.currentAppointment,
-          appointmentStart: action.payload
-        }
+        appointmentStart: action.payload
       };
     case AppointmentActionTypes.UPDATE_END:
       return {
         ...state,
-        currentAppointment: {
-          ...state.currentAppointment,
-          appointmentEnd: action.payload
-        }
+        appointmentEnd: action.payload
       };
     default:
       return state;
