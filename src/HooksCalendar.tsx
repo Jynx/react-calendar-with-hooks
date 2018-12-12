@@ -103,7 +103,9 @@ const CalendarReducer = (state: CalendarState, action: CalendarAction) => {
         demoSideEffect: action.payload
       };
     case CalendarActionTypes.HIDE_ADD_APPOINTMENT_MODAL:
+      return { ...state, isAddAppointmentModalVisible: true };
     case CalendarActionTypes.SHOW_ADD_APPOINTMENT_MODAL:
+      return { ...state, isAddAppointmentModalVisible: false };
     case AppointmentActionTypes.UPDATE_TITLE:
       return {
         ...state,
@@ -116,10 +118,6 @@ const CalendarReducer = (state: CalendarState, action: CalendarAction) => {
 
 const AppointmentReducer = (state: Appointment, action: CalendarAction) => {
   switch (action.type) {
-    case CalendarActionTypes.SHOW_ADD_APPOINTMENT_MODAL:
-      return { ...state, isAddAppointmentModalVisible: true };
-    case CalendarActionTypes.HIDE_ADD_APPOINTMENT_MODAL:
-      return { ...state, isAddAppointmentModalVisible: false };
     case AppointmentActionTypes.UPDATE_TITLE:
       return {
         ...state,
