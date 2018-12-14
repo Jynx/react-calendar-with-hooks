@@ -1,7 +1,7 @@
 import React from "react";
 import { CalendarAction } from "../ActionCreators/CalendarActions";
-import { CalendarState } from "../HooksCalendar";
-import { defaultCalendarState } from "../HooksCalendar";
+import { CalendarState } from "../App";
+import { defaultCalendarState } from "../App";
 
 export type CalendarContextProps = {
   calendarState: CalendarState;

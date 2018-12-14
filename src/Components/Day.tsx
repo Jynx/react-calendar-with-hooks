@@ -11,9 +11,11 @@ type DayProps = {
   isSelectedDay: boolean;
   dayOfMonth: number;
   moment: moment.Moment;
+  hasAppointment: boolean;
 };
 
 function Day(props: DayProps) {
+  debugger;
   const backgroundClasses = classnames({
     [CalendarCSS.dayContent]: true,
     [CalendarCSS.dayOutOfMonth]: props.isDayOutOfSelectedMonth
@@ -35,7 +37,9 @@ function Day(props: DayProps) {
       <div className={dayClasses} onClick={onDayselected}>
         {props.dayOfMonth}
       </div>
-      {/* {props.hasAppointment ? <div className={styles.hasAppointment} /> : null} */}
+      {props.hasAppointment ? (
+        <div className={CalendarCSS.hasAppointment} />
+      ) : null}
     </div>
   );
 }

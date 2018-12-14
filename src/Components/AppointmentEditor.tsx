@@ -18,7 +18,9 @@ const AppointmentEditorView = () => {
             type='text'
             autoFocus={true}
             placeholder={"Title required..."}
-            value={"Title required..."}
+            value={
+              calendarContext.calendarState.currentAppointment.appointmentTitle
+            }
             onChange={React.useCallback(evt => {
               calendarContext.dispatch(
                 new AppointmentActions.UpdateTitle(evt.target.value)
@@ -43,8 +45,11 @@ const AppointmentEditorView = () => {
             className={styles.datetime}
             type='datetime-local'
             id='start'
-            value={"props.appointmentStart"}
+            value={
+              calendarContext.calendarState.currentAppointment.appointmentStart
+            }
             onChange={React.useCallback(evt => {
+              debugger;
               calendarContext.dispatch(
                 new AppointmentActions.UpdateStart(evt.target.value)
               );
@@ -56,7 +61,9 @@ const AppointmentEditorView = () => {
             className={styles.datetime}
             type='datetime-local'
             id='end'
-            value={"props.appointmentEnd"}
+            value={
+              calendarContext.calendarState.currentAppointment.appointmentEnd
+            }
             onChange={React.useCallback(evt => {
               calendarContext.dispatch(
                 new AppointmentActions.UpdateEnd(evt.target.value)
@@ -74,7 +81,13 @@ const AppointmentEditorView = () => {
             type='button'
             className={styles.save}
             value={"Save"}
-            //   onClick={props.onSaveAppointment}
+            onClick={React.useCallback(() => {
+              calendarContext.dispatch(
+                new AppointmentActions.CreateAppointment(
+                  calendarContext.calendarState.currentAppointment
+                )
+              );
+            }, [])}
           />
         </div>
       </div>

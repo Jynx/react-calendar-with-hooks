@@ -46,6 +46,8 @@ function Calendar(): JSX.Element {
           .startOf("day")
           .isSame(moment(currentDate).startOf("day"));
 
+        const hasAppointment = isDayContainedWithinAppointments(day);
+
         days.push(
           <Day
             key={moment(day).format("MM-DD-YYYY")}
@@ -58,6 +60,7 @@ function Calendar(): JSX.Element {
                 ? moment(day).isSame(moment(selectedDay))
                 : false
             }
+            hasAppointment={hasAppointment}
           />
         );
         day = day.add(1, "day");
@@ -73,6 +76,15 @@ function Calendar(): JSX.Element {
       days = [];
     }
     return rows;
+  };
+
+  const isDayContainedWithinAppointments = (day: moment.Moment): boolean => {
+    const appointments = calendarContext.calendarState.appointments;
+    return appointments.some(appt => {
+      const startDate = moment(appt.appointmentStart);
+      const endDate = moment(appt.appointmentEnd);
+      return day.isBetween(startDate, endDate);
+    });
   };
 
   return (
